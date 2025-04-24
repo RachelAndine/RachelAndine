@@ -1,0 +1,139 @@
+---
+title: "Assignment data analysis in practice 202307243"
+author: "Rachel Andine"
+date: "2025-04-21"
+output: html_document
+---
+#import csv file to R and prepare data 
+
+In this step, we will load the wine quality dataset, explore its basic structure, and prepare it for further analysis. This includes:
+- Importing the data
+- Checking its structure and summary
+- Identifying any missing values or duplicates
+- Scaling (standardizing) the numeric variables for modeling
+
+To help us in our task of cleaning the data wer are using the tidyverse library 
+
+The dataset contains physicochemical attributes of red wine samples along with a sensory quality rating (from 0 to 10). The table below summarizes the distribution of each variable using key descriptive statistics: minimum, 1st quartile, median, mean, 3rd quartile, and maximum.
+
+🔍 Key Observations:
+Fixed Acidity: Ranges from 4.6 to 15.9, with a mean of 8.32. Most values fall between 7.1 and 9.2.
+
+Volatile Acidity: Skews low, ranging from 0.12 to 1.58. The median is 0.52, showing most samples are on the lower side, which is desirable for wine quality.
+
+Citric Acid: Mostly small values (median = 0.26), with a few outliers up to 1.0.
+
+Residual Sugar: The range (0.9 to 15.5) shows high variability; the mean (2.54) is higher than the median (2.2), suggesting a right-skewed distribution due to outliers.
+
+Chlorides: Varies between 0.012 and 0.611, with a median of 0.079, and a slight positive skew.
+
+Free Sulfur Dioxide: Median of 14, but a max of 72, indicating some extreme values.
+
+Total Sulfur Dioxide: Widely dispersed, ranging up to 289 with a median of 38. This could impact flavor and preservation.
+
+Density: Very narrow range (0.9901 to 1.0037), as expected for liquids, with a mean of 0.9967.
+
+pH: Ranges from 2.74 to 4.01, centered around a mean of 3.31 — typical acidity for red wine.
+
+Sulphates: Ranges from 0.33 to 2.00; most values lie below 0.73, with a positively skewed distribution.
+
+Alcohol: Varies from 8.4% to 14.9%. The mean (10.42%) suggests moderate alcohol content overall, with higher alcohol levels possibly improving wine quality.
+
+Quality (Target Variable): Scores range from 3 to 8, with a median and mode of 6. The average score is 5.64, indicating a generally moderate quality level, with some outliers of both low and high quality.
+
+while checking the data set for missing values turn out we had no missing values as they returned 0 for all column 
+
+We have found 240 duplicate acrross all rows which we have later delete to keep only the unique rows 
+
+
+
+Using the IQR method, we identified a notable number of outliers across several numeric variables. These outliers are values that fall significantly below or above the typical range of the data.
+
+Notably:
+
+residual_sugar (126 outliers) and chlorides (87 outliers) show substantial deviation, which may affect modeling if left untreated.
+
+citric_acid had only 1 outlier, and alcohol had 12, indicating more stable distributions.
+
+The presence of outliers in variables such as sulphates, fixed_acidity, and volatile_acidity should be assessed visually to determine whether they represent data quality issues or genuine extreme values.
+
+```{r}
+# Get tidyverse package Essential for data manipulation and visualization, includes packages like ggplot2, dplyr (data manipulation tasks such as filtering rows, selecting columns, and arranging data), and tidyr.
+library(tidyverse)
+library(janitor)
+
+# Read the CSV file into R and store it in a variable called 'wine'
+
+wine <- read_delim("Wine Quality (Red Wine).csv", delim = ";")
+#view(wine) #to view the whole data set 
+
+#display the first rows of the wine dataset and the variable types 
+head(wine)
+skimr::skim(wine)
+glimpse(wine)  # shows all column names and types
+summary(wine)
+
+# Clean column names
+wine <- wine %>% clean_names()
+
+# Check for missing values
+missing_total <- sum(is.na(wine))
+if (missing_total == 0) {
+  print("✅ No missing values in the dataset.")
+} else {
+  print(paste("⚠️", missing_total, "missing values found."))
+}
+
+# Check for duplicate rows
+duplicate_total <- sum(duplicated(wine))
+if (duplicate_total == 0) {
+  print("✅ No duplicated rows found.")
+} else {
+  print(paste("⚠️", duplicate_total, "duplicated rows detected."))
+}
+# This removes duplicated rows across all columns
+wine <- wine %>% distinct()
+
+#to check if duplicate was removed 
+skimr::skim(wine)
+```
+
+
+``` {r}
+
+# Reshape the data to long format for easy faceting
+wine_long <- wine %>%
+  pivot_longer(cols = -quality, names_to = "variable", values_to = "value")
+
+# Plot histograms for all variables (except quality)
+ggplot(wine_long, aes(x = value)) +
+  geom_histogram(fill = "#2E86C1", bins = 30, color = "white") +
+  facet_wrap(~variable, scales = "free", ncol = 3) +
+  labs(title = "Distribution of Numeric Features in Wine Dataset", x = "Value", y = "Count") +
+  theme_minimal()
+
+#to check for outlier 
+detect_outliers <- function(x) {
+  iqr <- IQR(x)
+  lower <- quantile(x, 0.25) - 1.5 * iqr
+  upper <- quantile(x, 0.75) + 1.5 * iqr
+  sum(x < lower | x > upper)
+}
+
+sapply(wine %>% select(-quality), detect_outliers)
+# Load ggplot2 (already included in tidyverse)
+library(ggplot2)
+
+# Create a long-format version of the data
+wine_long <- wine %>%
+  pivot_longer(cols = -quality, names_to = "variable", values_to = "value")
+
+# Boxplots for selected variables with high outliers
+high_outlier_vars <- c("residual_sugar", "chlorides", "sulphates", "fixed_acidity")
+
+ggplot(wine_long %>% filter(variable %in% high_outlier_vars), 
+       aes(x = variable, y = value)) +
+  geom_boxplot(fill = "#2E86C1", outlier.color = "red") +
+  labs(title = "Boxplots for High Outlier Features", y = "Value", x = "Feature") +
+  theme_minimal()
+
