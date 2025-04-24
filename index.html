@@ -1,19 +1,176 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2575.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    span.s1 {font-kerning: none}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rachel Andine | Data Analyst</title>
+  <style>
+    :root {
+      --background: #fdf6f0;
+      --accent: #ff8ba0;
+      --primary: #6c5ce7;
+      --text: #2d3436;
+      --soft: #ffeaa7;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--accent);
+      color: white;
+      padding: 4em 2em;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 3em;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 0.5em;
+    }
+
+    nav {
+      background-color: white;
+      padding: 1em;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    nav a {
+      margin: 0 1em;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: var(--primary);
+    }
+
+    section {
+      padding: 4em 2em;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      color: var(--primary);
+      margin-bottom: 0.5em;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      margin-top: 1em;
+      border-radius: 10px;
+    }
+
+    .project-box {
+      background-color: var(--soft);
+      padding: 1.5em;
+      margin-bottom: 2em;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2em;
+      font-size: 0.9em;
+      background: var(--accent);
+      color: white;
+    }
+
+    a.button {
+      background: var(--primary);
+      color: white;
+      padding: 0.7em 1.2em;
+      text-decoration: none;
+      border-radius: 8px;
+      display: inline-block;
+      margin-top: 1em;
+    }
+
+    .about-img {
+      max-width: 250px;
+      border-radius: 10px;
+      float: right;
+      margin-left: 1.5em;
+      margin-bottom: 1em;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+      .about-img {
+        float: none;
+        display: block;
+        margin: 0 auto 1em auto;
+      }
+    }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1">&lt;h1&gt; HI! &lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1">&lt;h1&gt; I am Rachel Andine! &lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1">&lt;h2&gt;Dispute coordinator at checkout and Year 2 student in applied Stats at the University of Mauritius&lt;/h2&gt;</span></p>
+
+<header>
+  <h1>Rachel Andine</h1>
+  <p>Making sense of chaos, one dataset at a time.</p>
+</header>
+
+<nav>
+  <a href="#about">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#resume">Resume</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section id="about">
+  <h2>About Me</h2>
+  <img src="71992716-B82E-40CB-9B5E-1E368CA87493.jpeg" alt="Rachel Andine" class="about-img">
+  <p>I'm Rachel, a playful and precise data analyst with an engineering past and a stats-driven future. Based in Mauritius, applying with big dreams to Dubai, Abu Dhabi, and Sharjah. This is my pastel playground of projects and insights.</p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+
+  <div class="project-box">
+    <h3>📊 Google Sheets Dashboard</h3>
+    <p>A live dashboard built using Google Sheets to explore and visualize real-time business data.</p>
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRXmZz9tZ_guxGGr6nUCGNFGu8MeBkUR8o5Ng8TuEjUmmC64rbj78ToOWeOpE73Wg/pubhtml?widget=true&amp;headers=false"></iframe>
+  </div>
+
+  <div class="project-box">
+    <h3>📈 R Markdown Data Analysis</h3>
+    <p>This project includes EDA and data wrangling using R and Markdown to present structured insights. </p>
+    <a href="Data analysis assignment.Rmd" class="button" download>Download R Markdown File</a>
+  </div>
+
+</section>
+
+<section id="resume">
+  <h2>Resume</h2>
+  <p>View or download my CV to learn more about my professional journey and skills.</p>
+  <a href="Rachel_Andine_Resume.pdf" class="button" download>Download Resume</a>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: <a href="mailto:rachelandine@gmail.com">rachelandine@gmail.com</a></p>
+  <p>LinkedIn: <a href="https://www.linkedin.com/in/rachelandine">linkedin.com/in/rachelandine</a></p>
+</section>
+
+<footer>
+  <p>© 2025 Rachel Andine. Powered by Python, pastel power, and a little sarcasm.</p>
+</footer>
+
 </body>
 </html>
